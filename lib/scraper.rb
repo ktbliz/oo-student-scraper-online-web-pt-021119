@@ -13,21 +13,23 @@ class Scraper
     end 
     index_page_array
   end
+  
+  
 
   def self.scrape_profile_page(profile_url)
     profile = Nokogiri::HTML(open(profile_url))
     student = {}
     #binding.pry 
     
-    
-    
-    student[:twitter] = profile.css("div.social-icon-container a[href*='twitter']").attribute("href").text unless profile.css("div.social-icon-container a[href*='twitter']") ==  nil
+    if profile.css("div.social-icon-container a[href*='twitter']").length != 0 
+      student[:twitter] = profile.css("div.social-icon-container a[href*='twitter']").attribute("href").text 
+    end 
     
     if profile.css("div.social-icon-container a[href*='linkedin']") != nil 
     student[:linkedin] = profile.css("div.social-icon-container a[href*='linkedin']").attribute("href").text
     end 
     
-    if profile.css("div.social-icon-container a[href*='github']") != nil
+    if profile.css("div.social-icon-container a[href*='github']") != nil 
     student[:github] = profile.css("div.social-icon-container a[href*='github']").attribute("href").text
     end 
     
@@ -37,8 +39,9 @@ class Scraper
     
     student[:profile_quote] = profile.css("div.profile-quote").text
     student[:bio] = profile.css("div.description-holder p").text
+    
     student 
   end
-  
+    
 end
   
